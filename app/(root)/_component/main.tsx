@@ -63,7 +63,15 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import ThemeSwitcher from "@/components/theme/theme-switch";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Overview } from "./Overview";
+import { RecentSales } from "./RecentSales";
 // This is sample data.
 const data = {
   user: {
@@ -354,9 +362,9 @@ export default function HomeComponent() {
         </SidebarFooter>
         <SidebarRail />
       </Sidebar>
-      <SidebarInset>
+      <SidebarInset className={"px-4"} >
         <header className="flex h-16 shrink-0 items-center justify-between gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
-          <div className="flex items-center gap-2 px-4">
+          <div className="flex items-center gap-2 ">
             <SidebarTrigger className="-ml-1" />
             <Separator orientation="vertical" className="mr-2 h-4" />
             <Breadcrumb>
@@ -368,11 +376,11 @@ export default function HomeComponent() {
               </BreadcrumbList>
             </Breadcrumb>
           </div>
-          <div className="px-4">
+          <div className="">
             <ThemeSwitcher />
           </div>
         </header>
-        <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+        <div className="flex flex-1 flex-col gap-4 mt-2">
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -472,12 +480,28 @@ export default function HomeComponent() {
               </CardContent>
             </Card>
           </div>
-          <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-            <div className="aspect-video rounded-xl bg-muted/100" />
-            <div className="aspect-video rounded-xl bg-muted/100" />
-            <div className="aspect-video rounded-xl bg-muted/100" />
+
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+            <Card className="col-span-4">
+              <CardHeader>
+                <CardTitle>Overview</CardTitle>
+              </CardHeader>
+              <CardContent className="pl-2">
+                <Overview />
+              </CardContent>
+            </Card>
+            <Card className="col-span-3">
+              <CardHeader>
+                <CardTitle>Recent Sales</CardTitle>
+                <CardDescription>
+                  You made 265 sales this month.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <RecentSales />
+              </CardContent>
+            </Card>
           </div>
-          <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/100 md:min-h-min" />
         </div>
       </SidebarInset>
     </SidebarProvider>

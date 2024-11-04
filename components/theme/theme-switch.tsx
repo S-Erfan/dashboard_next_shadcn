@@ -10,11 +10,27 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
-import { useMemo } from "react";
+import { useEffect, useState } from "react";
+import { getLocalStorageItem } from "@/lib/localStorageUtils";
 
 export default function ThemeSwitcher() {
   const { setTheme, theme } = useTheme();
-  const selectedTheme = useMemo(() => theme || "system", [theme]);
+  const [selectedTheme, setSelectedTheme] = useState<
+    "system" | "dark" | "light"
+  >("system");
+
+  useEffect(() => {
+    const local = getLocalStorageItem<"system" | "dark" | "light" | null>(
+      "theme"
+    );
+
+    if (local) {
+      setTheme(local);
+      setSelectedTheme(local);
+    } else {
+      setSelectedTheme((theme as "system" | "dark" | "light") || "system");
+    }
+  }, []);
 
   return (
     <DropdownMenu>
@@ -23,25 +39,25 @@ export default function ThemeSwitcher() {
           <Sun
             className={cn(
               "h-[1.2rem] w-[1.2rem] transition-all",
-              selectedTheme !== "light"
-                ? "-rotate-90 scale-0"
-                : "rotate-0 scale-100"
+              selectedTheme === "light"
+                ? "rotate-0 scale-100"
+                : "-rotate-90 scale-0"
             )}
           />
           <Moon
             className={cn(
               "absolute h-[1.2rem] w-[1.2rem] transition-all",
-              selectedTheme !== "dark"
-                ? "rotate-90 scale-0"
-                : "rotate-0 scale-100"
+              selectedTheme === "dark"
+                ? "rotate-0 scale-100"
+                : "rotate-90 scale-0"
             )}
           />
           <Monitor
             className={cn(
               "absolute h-[1.2rem] w-[1.2rem] transition-all",
-              selectedTheme !== "system"
-                ? "rotate-90 scale-0"
-                : "rotate-0 scale-100"
+              selectedTheme === "system"
+                ? "rotate-0 scale-100"
+                : "rotate-90 scale-0"
             )}
           />
           <span className="sr-only">Toggle theme</span>
